@@ -1,0 +1,99 @@
+﻿@page "/AssessmentPages/GameScheduler"
+<h1>Game Scheduler</h1>
+
+<header>
+    @if (hasFeedBack)
+    {
+        <blockquote class="success">@feedBackMessage</blockquote>
+    }
+    @if (hasError)
+    {
+        <blockquote class="error">
+            @errorMessage
+            <ul>
+                @foreach (var detail in errorDetails)
+                {
+                    <li>@detail</li>
+                }
+            </ul>
+        </blockquote>
+    }
+</header>
+<body>
+    <div class="row">
+        <div class="column">
+            <label>
+                Enter game date (@DateTime.Today.ToShortDateString() or later)<br />
+                <InputDate @bind-Value="gameDate" Style="Width: 100%; background-color: lightgray" />
+            </label>
+            <br />
+            <br />
+            <label>
+                Select Home Team<br />
+                <InputSelect @bind-Value="homeID" Style="Width: 100%; background-color: lightgray">
+                    <option value="0">select ...</option>
+                    @foreach (var item in homeTeamList)
+                    {
+                        <option value="@item.ValueID">@item.DisplayText</option>
+                    }
+                </InputSelect>
+            </label>
+            <br />
+            <br />
+            <label>
+                Select Visiting Team<br />
+                <InputSelect @bind-Value="visitingID" Style="Width: 100%; background-color: lightgray">
+                    <option value="0">select ...</option>
+                    @foreach (var item in visitingTeamList)
+                    {
+                        <option value="@item.ValueID">@item.DisplayText</option>
+                    }
+                </InputSelect>
+            </label>
+            <br />
+            <br />
+            <button class="btn-success" @onclick="AddToSchedule">Add to schedule</button>
+            &nbsp;&nbsp;
+            <button class="btn-success" @onclick="Clear">Clear</button>
+
+        </div>
+        <div class="column">
+
+            <h3>Games to be Scheduled</h3>
+
+            @if (gamesToSchedule == null)
+            {
+                <p>No games have been scheduled for processing</p>
+            }
+            else
+            {
+                @if (gamesToSchedule.Count == 0)
+                {
+                    <p>No games have been scheduled for processing</p>
+                }
+                else
+                {
+                    @*
+                    ACTIVITY 1 - Create a table to display the Games to be Scheduled - 4 MARKS
+                    
+                    a) Link the table to the ScheduleView gamesToSchedule collection
+                    b) Set up a disabled dropdown list to display each team (Home and Visiting)
+                    c) Set up a Remove button which when clicked will call the Remove method using the GameID as input data 
+                    See the sample screenshot for Activity 1 in the instructions
+
+                    YOUR CODE BELOW HERE
+                    *@
+
+                    
+
+
+                    <br />
+                    <br />
+                    <button class="btn-success" @onclick="Save">
+                        Schedule
+                    </button>
+                }
+            }
+        </div>
+    </div>
+</body>
