@@ -102,27 +102,40 @@ namespace FSISWebApp.Pages.AssessmentPages
 
             //  YOUR CODE HERE
 
-            // Check that the GameDate is on or after today.
-            if (gameDate < DateTime.Now)
+            // Reset feedback and error messages
+            feedBackMessage = string.Empty;
+            errorMessage = string.Empty;
+            errorDetails.Clear();
+
+            if (gameDate < DateTime.Today)
             {
-                errorMessage =("The game date cannot be either today or in the future.");
+                errorMessage = "The game date must be today or in the future.";
+               
             }
 
-            //Check if the HomeTeamId and VisitingTeamId are different
+            if (homeID == 0 || visitingID == 0)
+            {
+                errorMessage = "Please select both teams for the game.";                
+            }
+
             if (homeID == visitingID)
             {
-                errorMessage = ("The team cannot play agains itself.");
+                errorMessage = "A team cannot play against itself.";                
             }
 
-            if(homeID == 0 || homeID == 0)
+            if (!hasError)
             {
-                errorMessage = ("Please provide both teams fro the game schedule");
+                gamesToSchedule.Add(new ScheduleView
+                {
+                    HomeTeamID = homeID,
+                    VisitingTeamID = visitingID
+                });
+
+
+                feedBackMessage = "Game successfully added to the schedule.";
+                errorMessage = null;
             }
-
-
-
-
-
+                  
         }
 
         public void Remove(int gameID)
