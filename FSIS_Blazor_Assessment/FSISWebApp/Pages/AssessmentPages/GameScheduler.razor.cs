@@ -4,6 +4,7 @@ using FSISSystem.Entities;
 using FSISSystem.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FSISWebApp.Pages.AssessmentPages
 {
@@ -127,6 +128,7 @@ namespace FSISWebApp.Pages.AssessmentPages
             {
                 gamesToSchedule.Add(new ScheduleView
                 {
+                    GameID = ++CurrentMaxGameID,
                     HomeTeamID = homeID,
                     VisitingTeamID = visitingID
                 });
@@ -147,8 +149,20 @@ namespace FSISWebApp.Pages.AssessmentPages
             //  d) Issue success or failure messages.
 
             //  YOUR CODE HERE
-            
+            feedBackMessage = string.Empty;
+            errorMessage = string.Empty;
 
+            var gameToRemove = gamesToSchedule.FirstOrDefault(game => game.GameID == gameID);
+
+            if (gameToRemove == null)
+            {
+                errorMessage = $"Game with ID {gameID} does not exist in the schedule.";
+                return;
+            }
+
+            gamesToSchedule.Remove(gameToRemove);
+
+            feedBackMessage = $"Game with ID {gameID} has been successfully removed from the schedule.";
 
 
         }
@@ -160,10 +174,33 @@ namespace FSISWebApp.Pages.AssessmentPages
             //  b) Issue success or failure messages.
 
             //  YOUR CODE HERE
-            
 
+            try
+            {
+                GameService.GameServices_ScheduleGames(gameDate, gamesToSchedule);
 
+                // b) Issue a success message if no exceptions were thrown.
+                feedBackMessage = "Games have been successfully scheduled.";
+            }
+            catch (AggregateException ex)
+            {
+                if (!string.IsNullOrWhiteSpace(errorMessage))
+                {
+                    errorMessage += Environment.NewLine;
+                }
+                errorMessage += "Unable to search for customer.";
+                foreach (Exception error in ex.InnerExceptions)
+                {
+                    errorDetails.Add(error.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                
+                errorMessage = $"An unexpected error occurred: {ex.Message}";
+            }
 
         }
+      
     }
 }
