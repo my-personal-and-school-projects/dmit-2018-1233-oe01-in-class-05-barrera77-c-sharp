@@ -1,5 +1,6 @@
 ﻿#nullable disable
 using FSISSystem.BAL;
+using FSISSystem.Entities;
 using FSISSystem.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
@@ -100,7 +101,25 @@ namespace FSISWebApp.Pages.AssessmentPages
             //  d) Issue success or failure messages.
 
             //  YOUR CODE HERE
-            
+
+            // Check that the GameDate is on or after today.
+            if (gameDate < DateTime.Now)
+            {
+                errorMessage =("The game date cannot be either today or in the future.");
+            }
+
+            //Check if the HomeTeamId and VisitingTeamId are different
+            if (homeID == visitingID)
+            {
+                errorMessage = ("The team cannot play agains itself.");
+            }
+
+            if(homeID == 0 || homeID == 0)
+            {
+                errorMessage = ("Please provide both teams fro the game schedule");
+            }
+
+
 
 
 

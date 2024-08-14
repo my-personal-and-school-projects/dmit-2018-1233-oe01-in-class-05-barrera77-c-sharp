@@ -1,6 +1,8 @@
 ﻿@page "/AssessmentPages/GameScheduler"
 <h1>Game Scheduler</h1>
 
+
+
 <header>
     @if (hasFeedBack)
     {
@@ -61,6 +63,8 @@
 
             <h3>Games to be Scheduled</h3>
 
+           
+
             @if (gamesToSchedule == null)
             {
                 <p>No games have been scheduled for processing</p>
@@ -73,6 +77,8 @@
                 }
                 else
                 {
+                    
+                    
                     @*
                     ACTIVITY 1 - Create a table to display the Games to be Scheduled - 4 MARKS
                     
@@ -83,6 +89,35 @@
 
                     YOUR CODE BELOW HERE
                     *@
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Home</th>
+                                <th>Visiting</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var game in gamesToSchedule)
+                            {
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-success" @onclick="() => Remove(game.GameID)">Remove</button>
+                                    </td>
+                                    <td>
+                                        <select class="form-select" disabled>
+                                            <option selected>@homeTeamList.FirstOrDefault(t => t.ValueID == game.HomeTeamID)?.DisplayText</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-select" disabled>
+                                            <option selected>@visitingTeamList.FirstOrDefault(t => t.ValueID == game.VisitingTeamID)?.DisplayText</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
 
                     
 
